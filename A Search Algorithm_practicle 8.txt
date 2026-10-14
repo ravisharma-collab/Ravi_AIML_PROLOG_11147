@@ -1,0 +1,32 @@
+edge(a,b,1).
+edge(a,c,4).
+edge(b,d,2).
+edge(c,d,1).
+edge(d,g,3).
+edge(b,g,7).
+
+h(a,5).
+h(b,4).
+h(c,3).
+h(d,2).
+h(g,0).
+
+astar(Start, Goal, Path, Cost) :-
+    astar_search([[0,Start,[Start]]], Goal, Rev, Cost),
+    reverse(Rev, Path).
+
+astar_search([[Cost,Goal,Path]|_], Goal, Path, Cost).
+
+astar_search([[G,Node,Path]|Rest], Goal, Result, Cost) :-
+    findall(
+        [F,Next,[Next|Path]],
+        (edge(Node,Next,W),
+         \+ member(Next,Path),
+         NewG is G+W,
+         h(Next,H),
+         F is NewG+H),
+        Children
+    ),
+    append(Rest,Children,Open),
+    sort(Open,Sorted),
+    astar_search(Sorted,Goal,Result,Cost).

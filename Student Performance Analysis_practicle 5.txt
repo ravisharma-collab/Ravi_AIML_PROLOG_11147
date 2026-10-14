@@ -1,0 +1,18 @@
+% Student marks
+marks(rahul, 85).
+marks(aman, 65).
+marks(priya, 30).
+
+% Performance rules
+performance(Name, topper) :-
+    marks(Name, M),
+    M >= 80.
+
+performance(Name, average) :-
+    marks(Name, M),
+    M >= 40,
+    M < 80.
+
+performance(Name, fail) :-
+    marks(Name, M),
+    M < 40.

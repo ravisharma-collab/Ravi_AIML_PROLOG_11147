@@ -1,0 +1,20 @@
+% Solve 4-Queens problem
+
+queens(N, Solution) :-
+    numlist(1, N, Rows),
+    place_queens(Rows, Solution).
+
+place_queens([], []).
+
+place_queens(Rows, [Q|Queens]) :-
+    select(Q, Rows, Remaining),
+    place_queens(Remaining, Queens),
+    safe_queen(Q, Queens, 1).
+
+% Check diagonal safety
+safe_queen(_, [], _).
+
+safe_queen(Q, [Next|Rest], Distance) :-
+    abs(Q - Next) =\= Distance,
+    D1 is Distance + 1,
+    safe_queen(Q, Rest, D1).

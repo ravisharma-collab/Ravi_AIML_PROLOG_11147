@@ -1,0 +1,18 @@
+% Objective function
+value(X, V) :-
+    V is -((X - 5) * (X - 5)) + 25.
+
+% Search using decreasing step size
+anneal(X, 0, X).
+anneal(X, Step, Best) :-
+    Step > 0,
+    value(X, V),
+    X1 is X + Step,
+    value(X1, V1),
+    (V1 >= V ->
+        X2 = X1
+    ;
+        X2 = X
+    ),
+    NextStep is Step - 1,
+    anneal(X2, NextStep, Best).

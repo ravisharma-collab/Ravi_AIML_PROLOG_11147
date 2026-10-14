@@ -1,0 +1,28 @@
+% Faculty
+faculty(amit).
+faculty(neha).
+
+% Subjects
+subject(java).
+subject(mathematics).
+
+% Classrooms
+classroom(room101).
+classroom(room102).
+
+% Timetable: day, time, subject, faculty, room
+timetable(monday, 10, java, amit, room101).
+timetable(monday, 11, mathematics, neha, room102).
+timetable(tuesday, 10, mathematics, neha, room101).
+
+% Find a class
+class_info(Day, Time, Subject, Faculty, Room) :-
+    timetable(Day, Time, Subject, Faculty, Room).
+
+% Find faculty teaching a subject
+teaches(Faculty, Subject) :-
+    timetable(_, _, Subject, Faculty, _).
+
+% Find classroom for a subject
+subject_room(Subject, Room) :-
+    timetable(_, _, Subject, _, Room).

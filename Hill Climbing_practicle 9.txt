@@ -1,0 +1,19 @@
+% Objective: maximize -(X - 5)^2 + 25
+
+value(X, V) :-
+    V is -((X - 5) * (X - 5)) + 25.
+
+hill_climb(X, Best) :-
+    value(X, V),
+    X1 is X + 1,
+    X2 is X - 1,
+    value(X1, V1),
+    value(X2, V2),
+    (V1 > V ->
+        hill_climb(X1, Best)
+    ;
+        V2 > V ->
+        hill_climb(X2, Best)
+    ;
+        Best = X
+    ).

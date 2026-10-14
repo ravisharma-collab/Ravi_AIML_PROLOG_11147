@@ -1,0 +1,20 @@
+% Student-Course Knowledge Base
+
+student(rahul).
+student(aman).
+student priya.
+
+course(java).
+course(python).
+
+enrolled(rahul, java).
+enrolled(aman, python).
+enrolled(priya, java).
+
+likes(rahul, coding).
+likes(aman, gaming).
+
+% Queries:
+% ?- enrolled(rahul, java).
+% ?- enrolled(X, java).
+% ?- student(X).

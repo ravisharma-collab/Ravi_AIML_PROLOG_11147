@@ -1,0 +1,49 @@
+% Graph
+edge(a, b).
+edge(a, c).
+edge(b, d).
+edge(c, d).
+edge(d, g).
+edge(c, g).
+
+% Heuristic values
+h(a, 6).
+h(b, 4).
+h(c, 2).
+h(d, 1).
+h(g, 0).
+
+connected(X, Y) :- edge(X, Y).
+connected(X, Y) :- edge(Y, X).
+
+% Greedy Best-First Search
+greedy(Start, Goal, Path) :-
+    greedy_search([[Start]], Goal, RevPath),
+    reverse(RevPath, Path).
+
+greedy_search([[Goal|Rest]|_], Goal, [Goal|Rest]).
+
+greedy_search(Paths, Goal, Result) :-
+    select_best(Paths, Best, Remaining),
+    Best = [Node|Path],
+    findall(
+        [Next,Node|Path],
+        (connected(Node, Next),
+         \+ member(Next, [Node|Path])),
+        NewPaths
+    ),
+    append(Remaining, NewPaths, Updated),
+    greedy_search(Updated, Goal, Result).
+
+select_best([P], P, []).
+select_best([P|Ps], Best, Rest) :-
+    select_best(Ps, B1, R1),
+    P = [Node|_],
+    B1 = [Node1|_],
+    h(Node, H),
+    h(Node1, H1),
+    (H =< H1 ->
+        Best = P, Rest = [B1|R1]
+    ;
+        Best = B1, Rest = [P|R1]
+    ).
